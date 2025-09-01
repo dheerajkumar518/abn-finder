@@ -78,7 +78,18 @@ export default function XmlImportPage() {
           })
         );
 
-        setExtractedData(records);
+        setExtractedData(
+          records.filter(
+            (item) =>
+              item.abn &&
+              item.abn_status &&
+              item.company_name &&
+              item.company_type &&
+              item.gst_status &&
+              item.postcode &&
+              item.state
+          )
+        );
         toast.success(`Extracted ${records.length} records`);
       } catch (err) {
         console.error(err);
@@ -175,7 +186,7 @@ export default function XmlImportPage() {
 
         {extractedData.length > 0 && (
           <div className="mt-8">
-            <div className="rounded-xl border overflow-hidden">
+            <div className="rounded-xl border max-h-96 overflow-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -212,7 +223,8 @@ export default function XmlImportPage() {
               </Table>
             </div>
 
-            <div className="flex justify-end">
+            <div className="flex justify-between items-center ">
+              <h2>Total Records: {extractedData.length}</h2>
               <Button
                 onClick={handleUpload}
                 disabled={extractedData.length === 0 || loading}
