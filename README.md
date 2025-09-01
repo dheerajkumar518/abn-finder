@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ABN Finder
+
+ABN Finder is a web application that allows users to search and filter through a database of Australian Business Numbers (ABNs). It provides a user-friendly interface to quickly find information about Australian companies.
+
+## DEMO Link
+
+- [Demo Link](https://abn-finder.vercel.app/)(Vercel Deployment)
+
+## Features
+
+- **Search:** Search for companies by name or ABN.
+- **Filtering:** Filter companies by:
+  - State
+  - ABN Status (e.g., Active, Cancelled)
+  - Company Type
+  - GST Status
+- **Sorting:** Sort the list of companies by various criteria.
+- **Pagination:** Navigate through the list of companies with ease.
+- **Theme Toggle:** Switch between light and dark mode for better readability.
+
+## Tech Stack
+
+- **Frontend:**
+  - [Next.js](https://nextjs.org/) (React framework)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Tailwind CSS](https://tailwindcss.com/) for styling
+  - [shadcn/ui](https://ui.shadcn.com/) for UI components
+  - [Zustand](https://github.com/pmndrs/zustand) for state management
+  - [SWR](https://swr.vercel.app/) for data fetching
+- **Backend:**
+  - [Next.js API Routes](https://nextjs.org/docs/api-routes/introduction)
+  - [Supabase](https://supabase.io/) for the database
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- [Node.js](https://nodejs.org/en/download/) (v20 or later)
+- [npm](https://www.npmjs.com/get-npm)
+- A [Supabase](https://supabase.io/) account and project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Clone the repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+    ```bash
+    git clone https://github.com/your-username/abn-finder.git
+    cd abn-finder
+    ```
 
-## Learn More
+2.  **Install dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+    ```bash
+    npm install
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3.  **Set up environment variables:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+    Create a `.env.local` file in the root of the project and add your Supabase project URL and anon key:
 
-## Deploy on Vercel
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4.  **Set up the database:**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    You will need to create a table in your Supabase database named `australian_business_register` with the following columns:
+
+    - `abn` (number, primary key)
+    - `abn_status` (text)
+    - `company_type` (text)
+    - `company_name` (text)
+    - `gst_status` (text)
+    - `state` (text)
+    - `postcode` (text)
+
+### Usage
+
+1.  **Run the development server:**
+
+    ```bash
+    npm run dev
+    ```
+
+2.  Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## ABN Data Extraction
+
+The application includes a page at `/extract-abn` that allows you to extract ABN data from an XML file and save it to the Supabase database.
+
+### How it works
+
+The page provides an interface to upload an XML file. The application then parses the XML file, extracts the relevant information for each ABR record, and displays it in a table. You can then click the "Upload" button to save the data to the Supabase database.
+
+### Usage
+
+1.  Navigate to the `/extract-abn` page in the application.
+2.  Upload your XML data file.
+3.  Click the "Extract" button to see the extracted data.
+4.  Click the "Upload" button to save the data to the Supabase database.
